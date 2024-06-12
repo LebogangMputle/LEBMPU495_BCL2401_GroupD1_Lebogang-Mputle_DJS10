@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import './App.css';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
     return (
       <div className='App'>
         <Header />
+        <Footer />
         {posts.map(post => (
           <div key={post.id}>
             <h2>{post.title}</h2>
