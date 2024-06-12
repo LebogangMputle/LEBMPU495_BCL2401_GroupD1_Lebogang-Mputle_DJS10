@@ -2,20 +2,26 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 export default function App() {
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState([]); // State to store fetched posts
+  const [error, setError] = useState(null); // State to store error message (if any)
   const errorImage = '/images/error-message.png'; // Path to error image
 
+  // Fetches blog posts data using the Fetch API
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then(response => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.response}`);
         }
-        return response.json();
-      })
-      .then(data => setPosts(data))
-      .catch(error => setError({ message: error.message, image: errorImage }));
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        setError({ message: error.message, image: errorImage });
+      }
+    };
+
+    fetchData(); // Call the fetchData function on component mount
   }, []);
 
   if (error) {
